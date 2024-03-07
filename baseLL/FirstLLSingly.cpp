@@ -14,6 +14,18 @@ public:
       this->data = data;
       this->next = NULL;
    }
+
+   // destructor..
+   ~Node()
+   {
+      int value = this->data;
+      if (this->next != NULL)
+      {
+         delete next;
+         this->next = NULL;
+      }
+      cout << " memory is free for node with data " << value << endl;
+   }
 };
 
 void InsertAtHead(Node *&head, int d)
@@ -71,6 +83,34 @@ void print(Node *&head)
    cout << endl;
 }
 
+void deleteNode(int position, Node *&head)
+{ // deleting
+   if (position == 1)
+   {
+      Node *temp = head;
+      head = head->next;
+      // memory free start node
+      temp->next = NULL;
+      delete temp;
+   }
+   else
+   {
+       //deletinmg any middle node or last node
+        Node* curr = head;
+        Node* prev = NULL;
+
+        int cnt = 1; 
+        while(cnt < position) {
+               prev = curr;
+               curr = curr->next;
+               cnt++;
+        }
+           prev->next = curr->next;
+           curr->next = NULL;
+           delete curr;
+   }
+}
+
 int main()
 {
    Node *node1 = new Node(10);
@@ -90,7 +130,10 @@ int main()
    InsertAtPosition(head, tail, 4, 22);
    print(head);
 
-   cout<<"Head "<< head -> data<<endl;
-   cout<<"Tail "<< tail -> data<<endl;
+   cout << "Head " << head->data << endl;
+   cout << "Tail " << tail->data << endl;
+
+   deleteNode(3,head);
+   print(head);
    return 0;
 }
